@@ -1,46 +1,74 @@
-![Banner image](https://user-images.githubusercontent.com/10284570/173569848-c624317f-42b1-45a6-ab09-f0ea3c247648.png)
+# n8n-nodes-mastercard-clicktopay
 
-# n8n-nodes-starter
+This is an n8n community node. It lets you use Mastercard's Click to Pay in your n8n workflows.
 
-This repo contains example nodes to help you get started building your own custom integrations for [n8n](n8n.io). It includes the node linter and other dependencies.
+Mastercard Click to Pay provides a secure and simplified checkout experience. This node package allows you to integrate Click to Pay functionality into your n8n workflows.
 
-To make your custom node available to the community, you must create it as an npm package, and [submit it to the npm registry](https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry).
+[n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/reference/license/) workflow automation platform.
 
-## Prerequisites
+[Installation](#installation)  
+[Operations](#operations)  
+[Credentials](#credentials)  
+[Usage](#usage)  
+[Resources](#resources)  
 
-You need the following installed on your development machine:
+## Installation
 
-* [git](https://git-scm.com/downloads)
-* Node.js and pnpm. Minimum version Node 18. You can find instructions on how to install both using nvm (Node Version Manager) for Linux, Mac, and WSL [here](https://github.com/nvm-sh/nvm). For Windows users, refer to Microsoft's guide to [Install NodeJS on Windows](https://docs.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-windows).
-* Install n8n with:
-  ```
-  pnpm install n8n -g
-  ```
-* Recommended: follow n8n's guide to [set up your development environment](https://docs.n8n.io/integrations/creating-nodes/build/node-development-environment/).
+Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes/installation/) in the n8n community nodes documentation.
 
-## Using this starter
+## Operations
 
-These are the basic steps for working with the starter. For detailed guidance on creating and publishing nodes, refer to the [documentation](https://docs.n8n.io/integrations/creating-nodes/).
+This package includes three nodes:
 
-1. [Generate a new repository](https://github.com/n8n-io/n8n-nodes-starter/generate) from this template repository.
-2. Clone your new repo:
-   ```
-   git clone https://github.com/<your organization>/<your-repo-name>.git
-   ```
-3. Run `pnpm i` to install dependencies.
-4. Open the project in your editor.
-5. Browse the examples in `/nodes` and `/credentials`. Modify the examples, or replace them with your own nodes.
-6. Update the `package.json` to match your details.
-7. Run `pnpm lint` to check for errors or `pnpm lintfix` to automatically fix errors when possible.
-8. Test your node locally. Refer to [Run your node locally](https://docs.n8n.io/integrations/creating-nodes/test/run-node-locally/) for guidance.
-9. Replace this README with documentation for your node. Use the [README_TEMPLATE](README_TEMPLATE.md) to get started.
-10. Update the LICENSE file to use your details.
-11. [Publish](https://docs.npmjs.com/packages-and-modules/contributing-packages-to-the-registry) your package to npm.
+### 1. Mastercard Click to Pay - Authenticate
+- **Get Access Token**: Authenticates with Mastercard API using your credentials and certificate to obtain an access token.
 
-## More information
+### 2. Mastercard Click to Pay - Launch Checkout
+- **Generate Checkout Script**: Creates HTML/JavaScript code to launch a Click to Pay checkout experience.
 
-Refer to our [documentation on creating nodes](https://docs.n8n.io/integrations/creating-nodes/) for detailed information on building your own nodes.
+### 3. Mastercard Click to Pay - Checkout API
+- **Get Card on File**: Retrieves card-on-file details from a transaction.
+- **Confirm Payment**: Confirms a payment after checkout.
 
-## License
+## Credentials
 
-[MIT](https://github.com/n8n-io/n8n-nodes-starter/blob/master/LICENSE.md)
+You need to obtain the following from Mastercard to use these nodes:
+
+1. **Client ID** and **Client Secret**: Your API client credentials.
+2. **Certificate and Private Key**: For secure API authentication.
+3. **Merchant ID**: Your merchant identifier.
+
+To set up credentials in n8n:
+
+1. Navigate to **Settings** > **Credentials** > **New**.
+2. Search for "Mastercard Click to Pay API" and select it.
+3. Fill in your credentials and save.
+
+## Usage
+
+### Basic Workflow Example
+
+1. **Trigger Node** (e.g., HTTP Request or Webhook) - Start the workflow.
+2. **Mastercard Click to Pay - Authenticate** - Authenticate and get an access token.
+3. **Mastercard Click to Pay - Launch Checkout** - Generate the checkout script.
+4. **HTTP Response** - Return the checkout page to the user.
+
+After the user completes the checkout:
+
+1. **Webhook** - Receive the transaction callback.
+2. **Mastercard Click to Pay - Checkout API** - Confirm the payment.
+
+### Integration with E-commerce Systems
+
+This node package can be integrated with various e-commerce platforms:
+
+1. Create a webhook in your e-commerce system that triggers when a user initiates checkout.
+2. Use n8n to generate the Click to Pay checkout page.
+3. After the user completes payment, confirm the transaction and update your e-commerce system.
+
+## Resources
+
+* [n8n community nodes documentation](https://docs.n8n.io/integrations/community-nodes/)
+* [Mastercard Unified Checkout Solutions documentation](https://developer.mastercard.com/unified-checkout-solutions/documentation/)
+* [Click to Pay SDK Reference](https://developer.mastercard.com/unified-checkout-solutions/documentation/sdk-reference/)
+* [Checkout API Reference](https://developer.mastercard.com/unified-checkout-solutions/documentation/api-reference/apis/#checkout-card-on-file-and-confirmations-api)
